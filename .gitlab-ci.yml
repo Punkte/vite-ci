@@ -2,12 +2,10 @@ image: node:latest
 stages:
   - install
   - test
+  - build
 install:
   stage: install
   script: npm install
-  cache:
-    paths:
-      - node_modules/
   artifacts:
     expire_in: 1 days
     when: on_success
@@ -20,4 +18,16 @@ vitest:
     - install
   script:
     - npm run test
+
+build:
+  stage: build
+  dependencies:
+    - install
+  script:
+    - docker build
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - dist/
 
