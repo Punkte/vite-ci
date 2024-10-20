@@ -1,0 +1,22 @@
+stages:
+  - install
+  - test
+install:
+  stage: install
+  script: npm install
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - node_modules/
+
+vitest:
+  stage: test
+  dependencies:
+    - install
+  script:
+    - npm run test
+
